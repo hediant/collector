@@ -1,0 +1,22 @@
+{
+	"name":"data_collector",
+	"description":"Data collectors",
+	"version":"0.0.1",
+	"private":true,
+	"author":"David Hediant <hediant@gmail.com>",
+	"contributors":[
+	],
+	"keywords":[
+		"finance",
+		"news",
+		"stock",
+		"data",
+		"collectors"
+	],
+	"dependencies":{
+		"require":"~2.4.20"
+	},
+	"engines": {
+		"node": ">= 0.10.0"
+	}
+}
