@@ -14,7 +14,11 @@
 		"collectors"
 	],
 	"dependencies":{
-		"request":"~2.69.0"
+		"request":"~2.69.0",
+		"fast-csv":"1.0.0",
+		"q":"1.4.1",
+		"moment":"2.12.0",
+		"set":"1.1.1"
 	},
 	"engines": {
 		"node": ">= 0.10.0"
