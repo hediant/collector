@@ -1,6 +1,32 @@
 var request = require('request');
 var qs = require('querystring');
 var csv2obj = require('./csv2obj');
+var socks = require('socksv5');
+
+var proxy_config_ = {
+	proxyHost: 'localhost',
+	proxyPort: 1080,
+	auths: [ socks.auth.None() ]	
+};
+
+var enable_proxy_ = false;
+
+/*
+	enable - true || false (default)
+	options - object
+		{
+			proxyHost: 'localhost',
+			proxyPort: 1080,
+			auths: [ socks.auth.None() ]
+		}
+*/
+exports.setProxy = function (enable, options){
+	enable_proxy_ = enable;
+	if (options){
+		proxy_config_.proxyHost = options.proxyHost || "localhost";
+		proxy_config_.proxyPort = options.proxyPort || 1080;
+	}	
+}
 
 /*
 	symbol - string
@@ -38,7 +64,15 @@ exports.get_historial_prices = function (symbol, start, end, cb){
 		"ignore" : ".csv"
 	});
 
-	request(url + params, function (err, response, body){
+	var rqst = {
+		url : url + params
+	};
+
+	if (enable_proxy_){
+		rqst["agent"] = new socks.HttpAgent(proxy_config_) 
+	}
+
+	request(rqst, function (err, response, body){
 		if (err)
 			return cb && cb({
 				"code" : "ER_CONNECT_FAIL",

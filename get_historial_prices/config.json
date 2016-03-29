@@ -5,5 +5,12 @@
 	"tasks" : "tasks/",
 	"ignore" : "ignore/",
 	"last_update" : "last_update.txt",
-	"max_parallel_tasks" : 10 
+	"max_parallel_tasks" : 10,
+	"proxy" : {
+		"enabled" : false,
+		"sock5" : {
+			"proxyHost": "localhost",
+			"proxyPort": 1080		
+		} 
+	}
 }

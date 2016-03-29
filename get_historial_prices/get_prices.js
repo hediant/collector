@@ -297,14 +297,27 @@ function mergePrices (task){
 /*
 	main call
 */
+(function main (){
+	//
+	// set proxy if enabled
+	// socks v5 only
+	//
+	if (config.proxy && config.proxy.enabled){
+		yahoo_api.setProxy(config.proxy.enabled, config.proxy.sock5);
+	}
 
-Q.fcall(createTasks)
-.then(doTasks)
-.then(setFinishedTime)
-.then(function (){
-	console.log("------------------------------------------------");
-	console.log("All tasks finished!");
-}).catch(function (err){
-	console.error(err);
-	console.error(err.stack);
-});
+	//
+	// do collection tasks
+	//
+	Q.fcall(createTasks)
+	.then(doTasks)
+	.then(setFinishedTime)
+	.then(function (){
+		console.log("------------------------------------------------");
+		console.log("All tasks finished!");
+	}).catch(function (err){
+		console.error(err);
+		console.error(err.stack);
+	});	
+})();
+
