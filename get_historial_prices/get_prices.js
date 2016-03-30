@@ -3,10 +3,12 @@ var fs = require('fs');
 var path = require('path');
 var moment = require('moment');
 var Set = require('set');
+var sortBy = require('sort-array');
 var config = require('./config');
 var stockcode = require('./stockcode');
 var yahoo_api = require('./yahoo_finance_api');
 var csv2obj = require('./csv2obj');
+var holidays = require('./holidays');
 
 function TaskMgr(){
 	var tasks_ = [];
@@ -265,25 +267,24 @@ function getPricesBeforeLastUpdate (task){
 function mergePrices (task){
 	return Q.promise(function (resolve, reject, notify){
 		try{
-			var prices = task.old_prices.concat(task.new_prices);
+			var prices = sortBy(task.old_prices.concat(task.new_prices), "Date");
 
-			// unique to date
-			prices.sort(function (a, b){
-				return a.Date > b.Date;
-			});
-
+			// remove duplicate
 			for (var i=0; i<prices.length-1; i++){
 				if (prices[i].Date == prices[i+1].Date) prices.splice(i, 1);
+			}
+
+			// exclude holidays
+			for (var i=0; i<prices.length; i++){	
+				if (holidays[prices[i].Date]) {
+					prices.splice(i--, 1);
+				}
 			}
 
 			// write to disk
 			var file = path.join(config.historial_prices_path, config.day, task.code);
 			var writestream = fs.createWriteStream(file);
-/*
-			writestream.on('end', function (){
-				resolve();
-			});
-*/
+
 			csv2obj.rowsToCsvStream(prices, writestream);
 			resolve();
 
