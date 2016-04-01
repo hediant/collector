@@ -1,0 +1,1 @@
+exports.adapter1 = require('./adapters/get_live_prices');
