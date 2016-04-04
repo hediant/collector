@@ -3,6 +3,7 @@ var Task = require('./task');
 var Job = require('./job');
 var Adapters = require('./adapters');
 var Config = require('./config.json');
+var Repeat = require('./repeat');
 
 function Scheduler(){
 	EventEmitter.call(this);
@@ -20,7 +21,7 @@ function Scheduler(){
 	}
 
 	this.isActiveTask = function (task){
-		return true;
+		return Repeat(task);
 	}
 
 	this.matchJob = function (task){
@@ -35,7 +36,7 @@ function Scheduler(){
 		};
 	}
 
-	this.dispatch = function (task){
+	this.dispatch = function (task){debugger
 		var job = me.matchJob(task);
 		if (!job){
 			job = new Job(task.adapter, task.interval);
@@ -62,8 +63,11 @@ function Scheduler(){
 	this.cycle = function (){
 		for (var task_id in tasks_){
 			var task = tasks_[task_id];
-			if (me.isActiveTask(task) && task.status() != "running"){
-				me.dispatch(task);
+			if (me.isActiveTask(task)){
+				if (task.status() != "running") me.dispatch(task);
+			}
+			else{
+				if (task.status() == "running") me.removeTask(task);
 			}
 		}
 	}

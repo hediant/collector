@@ -8,6 +8,7 @@ function Job (adapter, interval){
 	var is_running_ = false;
 	var timer_;
 
+	this.adapter = adapter;
 	this.interval = interval;
 	this.max_tasks = adapter.config.max_tasks || 100;
 
