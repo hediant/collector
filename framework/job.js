@@ -20,7 +20,6 @@ function Job (adapter, interval){
 		// crawl data
 		adapter.crawl(tasks_, function (err, results){
 			if (err){
-				console.error(err);
 				me.emit('error', err);
 			}	
 			else {

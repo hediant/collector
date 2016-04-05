@@ -6,40 +6,40 @@ var Moment = require('moment');
 		"type" : "no" || "day" || "week" || "month",
 
 		// if type == no
-		"no" : {
+		"no" : [{
 			"start" : string, pattern like "hh:mm:ss",
 			"end" : string, pattern like "hh:mm:ss"	
-		},
+		}, ...],
 
 		// if type == day
-		"day" : {
+		"day" : [{
 			"start" : string, pattern like "hh:mm:ss",
 			"end" : string, pattern like "hh:mm:ss"
-		},
+		}, ...],
 
 		// if type == week
 		"week" : {
-			"Sun" : {
+			"Sun" : [{
 				"start" : string, pattern like "hh:mm:ss",
 				"end" : string, pattern like "hh:mm:ss"				
-			},
-			"Mon" : { ... },
-			"Tue" : { ... },
-			"Wed" : { ... },
-			"Thu" : { ... },
-			"Fri" : { ... },
-			"Sat" : { ... }
+			}, ...],
+			"Mon" : [{ ... }],
+			"Tue" : [{ ... }],
+			"Wed" : [{ ... }],
+			"Thu" : [{ ... }],
+			"Fri" : [{ ... }],
+			"Sat" : [{ ... }]
 		},
 
 		// if type == month
 		"month" : {
-			"01" : {
+			"01" : [{
 				"start" : string, pattern like "hh:mm:ss",
 				"end" : string, pattern like "hh:mm:ss"	
-			},
-			"02" : { ... },
+			}, ...],
+			"02" : [{ ... }],
 			...
-			"31" : { ... }
+			"31" : [{ ... }]
 		}
 	}
 */
@@ -60,40 +60,50 @@ module.exports = function (task){
 	switch (repeat.type){
 		case "month":
 			var info = repeat.month || {};
-			var period = info[cur_month_day];
-			if (period &&
-				cur_time >= period.start &&
-				cur_time <= period.end)
+			var periods = info[cur_month_day];
+			if (periods &&
+				isActiveInOneDay(periods, cur_time))
 				return true;
 			break;
 
 		case "week":
 			var info = repeat.week || {};
-			var period = info[week_day];
-			if (period &&
-				cur_time >= period.start &&
-				cur_time <= period.end)
+			var periods = info[cur_week_day];
+			if (periods &&
+				isActiveInOneDay(periods, cur_time))
 				return true;
 			break;
 
 		case "day":
-			var period = repeat.day || { "start" : "00:00:00", "end" : "24:00:00" }; 
+			var periods = repeat.day || { "start" : "00:00:00", "end" : "24:00:00" }; 
 			if (date <= cur_date && 
-				cur_time >= period.start &&
-				cur_time <= period.end)
+				isActiveInOneDay(periods, cur_time))
 				return true;
 			break;			
 
 		case "no":
 		default :
-			var period = repeat.no || { "start" : "00:00:00", "end" : "24:00:00" }; 
+			var periods = repeat.no || [{ "start" : "00:00:00", "end" : "24:00:00" }]; 
 			if (date == cur_date && 
-				cur_time >= period.start &&
-				cur_time <= period.end)
+				isActiveInOneDay(periods, cur_time))
 				return true;
 			break;
 	}
 
 	return false;
 
+}
+
+var isActiveInOneDay = function (periods, cur_time){
+	if (!Array.isArray(periods)){
+		return isActiveInOneDay([periods], cur_time);
+	}
+
+	for (var i=0; i< periods.length; i++){
+		var period = periods[i];
+		if (cur_time >= period.start && cur_time <= period.end) {
+			return true;
+		}
+	}
+	return false;
 }

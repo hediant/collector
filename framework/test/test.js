@@ -12,15 +12,15 @@ function disp(){
 }
 
 var tasks = [
-	new Task({"id":1, "adapter":Adapters.adapter1, "interval" : 1000}),
-	new Task({"id":2, "adapter":Adapters.adapter1, "interval" : 1000}),
-	new Task({"id":3, "adapter":Adapters.adapter1, "interval" : 3000})
+	new Task({"id":1, "adapter":Adapters.demoAdapter1, "interval" : 1000, "params":{"task":1}}),
+	new Task({"id":2, "adapter":Adapters.demoAdapter1, "interval" : 1000, "params":{"task":2}}),
+	new Task({"id":3, "adapter":Adapters.demoAdapter1, "interval" : 3000, "params":{"task":3}})
 ]
 
 tasks.forEach(function (task){
 	shdlr.addTask(task);
 	task.on('data', function (data){
-		console.log("task %s recv data.", task.id);
+		console.log("task %s recv data, %s.", task.id, JSON.stringify(data));
 	});	
 });
 

@@ -32,40 +32,40 @@ function Task(task_info){
 				"type" : "no" || "day" || "week" || "month",
 
 				// if type == no
-				"no" : {
+				"no" : [{
 					"start" : string, pattern like "hh:mm:ss",
 					"end" : string, pattern like "hh:mm:ss"	
-				},
+				}, ...],
 
 				// if type == day
-				"day" : {
+				"day" : [{
 					"start" : string, pattern like "hh:mm:ss",
 					"end" : string, pattern like "hh:mm:ss"
-				},
+				}, ...],
 
 				// if type == week
 				"week" : {
-					"Sun" : {
+					"Sun" : [{
 						"start" : string, pattern like "hh:mm:ss",
 						"end" : string, pattern like "hh:mm:ss"				
-					},
-					"Mon" : { ... },
-					"Tue" : { ... },
-					"Wed" : { ... },
-					"Thu" : { ... },
-					"Fri" : { ... },
-					"Sat" : { ... }
+					}, ...],
+					"Mon" : [{ ... }],
+					"Tue" : [{ ... }],
+					"Wed" : [{ ... }],
+					"Thu" : [{ ... }],
+					"Fri" : [{ ... }],
+					"Sat" : [{ ... }]
 				},
 
 				// if type == month
 				"month" : {
-					"01" : {
+					"01" : [{
 						"start" : string, pattern like "hh:mm:ss",
 						"end" : string, pattern like "hh:mm:ss"	
-					},
-					"02" : { ... },
+					}, ...],
+					"02" : [{ ... }],
 					...
-					"31" : { ... }
+					"31" : [{ ... }]
 				}
 			}
 		*/
