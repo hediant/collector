@@ -36,7 +36,7 @@ function Scheduler(){
 		};
 	}
 
-	this.dispatch = function (task){debugger
+	this.dispatch = function (task){
 		var job = me.matchJob(task);
 		if (!job){
 			job = new Job(task.adapter, task.interval);

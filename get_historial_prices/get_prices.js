@@ -6,8 +6,7 @@ var Set = require('set');
 var sortBy = require('sort-array');
 var config = require('./config');
 var stockcode = require('./stockcode');
-var yahoo_api = require('./yahoo_finance_api');
-var csv2obj = require('./csv2obj');
+var yahoo_api = require('../lib/yahoo_finance_api');
 var holidays = require('./holidays');
 
 function TaskMgr(){
@@ -252,7 +251,7 @@ function getPricesBeforeLastUpdate (task){
 
 			var readstream = fs.createReadStream(file);
 		
-			csv2obj.csvToRows(readstream, function (rows){
+			yahoo_api.csvToRows(readstream, function (rows){
 				task.old_prices = rows;
 				resolve(task);
 			});
@@ -285,7 +284,7 @@ function mergePrices (task){
 			var file = path.join(config.historial_prices_path, config.day, task.code);
 			var writestream = fs.createWriteStream(file);
 
-			csv2obj.rowsToCsvStream(prices, writestream);
+			yahoo_api.rowsToCsvStream(prices, writestream);
 			resolve();
 
 		}
