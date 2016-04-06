@@ -7,8 +7,7 @@ var shdlr = new Scheduler();
 shdlr.run();
 
 function disp(){
-	console.log("Jobs:");
-	console.log(shdlr.getJobs());
+	console.log("Tasks:%s, Jobs: %s.", shdlr.getTasksCount(), shdlr.getJobs().length);
 }
 
 var tasks = [

@@ -43,7 +43,7 @@ var Moment = require('moment');
 		}
 	}
 */
-module.exports = function (task){
+exports.isActiveTask = function (task){
 	var repeat = task.repeat;
 	var date = task.date;
 	var exclude_dates = task.exclude_dates || [];
@@ -105,5 +105,17 @@ var isActiveInOneDay = function (periods, cur_time){
 			return true;
 		}
 	}
+	return false;
+}
+
+exports.isNeverActive = function (task){
+	var current = Moment();
+	var cur_date = current.format("YYYY-MM-DD"); 	// '2016-04-01'
+
+	if (task.repeat &&
+		task.repeat.type == "no" && 
+		task.date != cur_date )
+		return true;
+
 	return false;
 }

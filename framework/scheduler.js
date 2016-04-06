@@ -13,15 +13,12 @@ function Scheduler(){
 	var timer_, clean_timer_;
 
 	var tasks_ = {};
+	var tasks_count_ = 0;
 	var jobs_ = [];
 
 	this.run = function (){
 		timer_ = setInterval(me.cycle, Config.check_cycle);
 		clean_timer_ = setInterval(me.cleanCycle, Config.clean_cycle);
-	}
-
-	this.isActiveTask = function (task){
-		return Repeat(task);
 	}
 
 	this.matchJob = function (task){
@@ -52,22 +49,29 @@ function Scheduler(){
 			me.removeTask(task);
 		};
 
+		tasks_count_++;
 		tasks_[task.id] = task;
 	}
 
 	this.removeTask = function (task){
 		task.stop();
+		tasks_count_--;
 		delete tasks_[task.id];
 	}
 
 	this.cycle = function (){
 		for (var task_id in tasks_){
 			var task = tasks_[task_id];
-			if (me.isActiveTask(task)){
+			if (Repeat.isActiveTask(task)){
 				if (task.status() != "running") me.dispatch(task);
 			}
 			else{
-				if (task.status() == "running") me.removeTask(task);
+				if (Repeat.isNeverActive(task)){
+					me.removeTask(task);
+				}
+				else if (task.status() == "running") {
+					task.stop();
+				}
 			}
 		}
 	}
@@ -89,6 +93,14 @@ function Scheduler(){
 
 	this.getJobs = function (){
 		return jobs_;
+	}
+
+	this.getTasks = function (){
+		return tasks_;
+	}
+
+	this.getTasksCount = function (){
+		return tasks_count_;
 	}
 
 }

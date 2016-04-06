@@ -9,7 +9,7 @@ shdlr.run();
 
 function disp(){
 	console.log("################################################");
-	console.log("[%s], Jobs: %s", Moment().format("YYYY-MM-DD HH:mm:ss"), shdlr.getJobs().length);
+	console.log("[%s], Tasks: %s, Jobs: %s", Moment().format("YYYY-MM-DD HH:mm:ss"), shdlr.getTasksCount(), shdlr.getJobs().length);
 	console.log("################################################");
 	//console.log(shdlr.getJobs());
 }
