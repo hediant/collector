@@ -1,2 +1,2 @@
 # data_collector
-My Data Collection
+Data Collection Framework with repeation and intervals.

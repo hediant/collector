@@ -1,26 +1,19 @@
 {
-	"name":"data_collector",
-	"description":"Data collectors",
+	"name":"collector framework",
+	"description":"Data collectors framework",
 	"version":"0.0.1",
 	"private":true,
 	"author":"David Hediant <hediant@gmail.com>",
 	"contributors":[
 	],
 	"keywords":[
-		"finance",
-		"news",
-		"stock",
 		"data",
-		"collectors"
+		"collectors",
+		"framework"
 	],
 	"dependencies":{
-		"request":"~2.69.0",
-		"fast-csv":"1.0.0",
 		"q":"1.4.1",
-		"moment":"2.12.0",
-		"set":"1.1.1",
-		"socksv5":"0.0.6",
-		"sort-array":"1.1.0"
+		"moment":"2.12.0"
 	},
 	"engines": {
 		"node": ">= 0.10.0"

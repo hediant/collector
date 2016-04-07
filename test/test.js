@@ -1,7 +1,7 @@
-var Task = require('../task');
-var Job = require('../job');
-var Scheduler = require('../scheduler');
-var Adapters = require('../adapters');
+var Task = require('../framework/task');
+var Job = require('../framework/job');
+var Scheduler = require('../framework/scheduler');
+var Adapters = require('../framework/adapters');
 
 var shdlr = new Scheduler();
 shdlr.run();
