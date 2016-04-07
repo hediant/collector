@@ -1,2 +1,2 @@
 # data_collector
-Data Collection Framework with repeation and intervals.
+Data Collection Framework with repetition and intervals.
