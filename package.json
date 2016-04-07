@@ -1,5 +1,5 @@
 {
-	"name":"collector framework",
+	"name":"collector",
 	"description":"Data collectors framework",
 	"version":"0.0.1",
 	"private":true,
